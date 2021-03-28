@@ -23,7 +23,7 @@ namespace RSSFeedAPI.BL
 
         public static async Task<CompanyActivity[]> GetCompanyActivityData(Dictionary<string, IEnumerable<string>> companies)
         {
-            // create a tasks for each keyvalue pair to check company activity date
+            // create a tasks for each keyvalue pair to read fetch company activity
             var tasks = companies.Select(async c =>
             {
                 try
