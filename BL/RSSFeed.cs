@@ -49,7 +49,13 @@ namespace RSSFeedAPI.BL
                     var feed = SyndicationFeed.Load(XmlReader.Create(url));
                     if (feed != null)
                     {
-                        lastActivityDate = feed.LastUpdatedTime.DateTime > lastActivityDate ? feed.LastUpdatedTime.DateTime : lastActivityDate;
+                        // get latest last updated dates from oll feed items
+                        var itemLastUpdatedDate =  feed.Items.Max(f => f.LastUpdatedTime.DateTime);
+                        //check if feed's last updated date is greater than latest item's last updated date
+                        itemLastUpdatedDate = feed.LastUpdatedTime.DateTime > itemLastUpdatedDate ? feed.LastUpdatedTime.DateTime : itemLastUpdatedDate;
+
+                        //Compare previously calculated lastActivityDate of another feed url
+                        lastActivityDate = itemLastUpdatedDate > lastActivityDate ? feed.LastUpdatedTime.DateTime : lastActivityDate;
                     }
                 }
                 catch (Exception ex)
